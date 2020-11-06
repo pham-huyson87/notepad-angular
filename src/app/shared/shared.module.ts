@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
 
@@ -11,6 +12,7 @@ import { AngularMaterialModule } from 'src/app/shared/angular-material.module';
     CommonModule
   ],
   exports: [
+    BrowserAnimationsModule,
     AngularMaterialModule
   ]
 })
