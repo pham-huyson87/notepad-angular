@@ -1,11 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { BackendService } from 'src/app/core/services/backend.service';
+import { BaseApiService } from 'src/app/core/services/base-api.service';
+import { CarService } from 'src/app/core/services/api.service';
+
 
 @NgModule({
   providers: [
-    BackendService
+    BaseApiService,
+    CarService
   ],
   imports: [
     HttpClientModule

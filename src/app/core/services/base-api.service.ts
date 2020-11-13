@@ -6,33 +6,24 @@ import { catchError, shareReplay } from 'rxjs/operators';
 import { delayedRetry } from 'src/app/core/custom-rxjs-operators/delay-retry';
 
 @Injectable()
-export class BackendService {
+export class BaseApiService {
 
-  private API_URL__PRIMARY        = "https://127.0.0.1:5001";
-  private API_URL__SECONDARY      = "https://127.0.0.1:5002";
   private MAX_RETRIES             = 3;
   private DELAY_BETWEEN_RETRIES   = 3000;
 
 
   constructor(
-    private _httpClient: HttpClient
+    private _httpClient: HttpClient,
+    private _servers: string[]
   ) {}
 
 
-  public async doApiRequest(): Promise<any> {
-
-    const servers = [
-      this.API_URL__PRIMARY,
-      this.API_URL__SECONDARY
-    ];
+  protected async doApiCall(query: string, request: any): Promise<any> {
 
     return await this.doHttpPostRequest(
-      servers,
-      "electric-vehicle/add",
-      {
-        name: 'Model S',
-        color: 'red'
-      }
+      this._servers,
+      query,
+      request
     )
   }
 
