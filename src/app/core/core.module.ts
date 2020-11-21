@@ -1,5 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
+import { NgxSpinnerModule } from "ngx-spinner";
 
 import { AppService } from 'src/app/core/services/app.service';
 import { BaseApiService } from 'src/app/core/services/base-api.service';
@@ -13,7 +15,14 @@ import { CarService } from 'src/app/core/services/api.service';
     CarService
   ],
   imports: [
-    HttpClientModule
+    HttpClientModule,
+    NgxSpinnerModule
+  ],
+  exports: [
+    NgxSpinnerModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class CoreModule { }
