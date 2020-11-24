@@ -1,3 +1,19 @@
+import { ErrorType } from 'src/app/shared/enums';
+
+
+export class Error {
+  public type: ErrorType;
+  public extra: any;
+}
+
+export class BaseResponse {
+  public isSuccess: boolean = false;
+  public errors: Error[] = [];
+}
+
+
+
+
 
 export class AddCarRequest {
   constructor(
@@ -6,6 +22,6 @@ export class AddCarRequest {
   ) {}
 }
 
-export class AddCarResponse {
-  
+export class AddCarResponse extends BaseResponse {
+
 }
