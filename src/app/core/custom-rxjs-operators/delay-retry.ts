@@ -8,7 +8,7 @@ const MAX_RETRIES = 3;
 export  function delayedRetry(delayMs: number, maxRetry = MAX_RETRIES, serversCount: number) {
 
   let remainingTries              = maxRetry;
-  let remainingFallbackServers   = serversCount;
+  let remainingFallbackServers    = serversCount;
 
   return (src: Observable<any>) =>
     src.pipe(
