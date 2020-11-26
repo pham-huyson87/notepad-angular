@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { EMPTY, from } from 'rxjs';
 import { catchError, shareReplay } from 'rxjs/operators';
 
-import { delayedRetry } from 'src/app/core/custom-rxjs-operators/delay-retry';
+import { ApiRetryException, delayedRetry } from 'src/app/core/custom-rxjs-operators/delay-retry';
 
 @Injectable()
 export class BaseApiService {
@@ -38,10 +38,11 @@ export class BaseApiService {
       dataToSend
     )
     .pipe(
-      delayedRetry(this.DELAY_BETWEEN_RETRIES, this.MAX_RETRIES),
-      catchError(async (a) => {
+      delayedRetry(this.DELAY_BETWEEN_RETRIES, this.MAX_RETRIES, this._servers.length),
+      catchError(async (exception: ApiRetryException) => {
 
-        if (servers.length === 1) return EMPTY;
+        if (servers.length === 1)                   return EMPTY;
+        if (exception === ApiRetryException.Stop)   return EMPTY;
 
         return from(
                   this.doHttpPostRequest(

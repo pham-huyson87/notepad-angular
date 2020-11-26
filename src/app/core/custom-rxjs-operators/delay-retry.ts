@@ -4,13 +4,11 @@ import { delay, mergeMap, retryWhen } from 'rxjs/operators';
 
 const MAX_RETRIES = 3;
 
-const getErrorMessage = (maxRetry: number) =>
-  `Tried to load Resource over XHR for ${maxRetry} times without success.`;
 
+export  function delayedRetry(delayMs: number, maxRetry = MAX_RETRIES, serversCount: number) {
 
-export  function delayedRetry(delayMs: number, maxRetry = MAX_RETRIES) {
-
-  let retries = maxRetry;
+  let remainingTries              = maxRetry;
+  let remainingFallbackServers   = serversCount;
 
   return (src: Observable<any>) =>
     src.pipe(
@@ -18,13 +16,25 @@ export  function delayedRetry(delayMs: number, maxRetry = MAX_RETRIES) {
         delay(delayMs),
         mergeMap((error) => {
 
-          retries--;
+          remainingTries--;
 
-          if (retries > 0)  return of(error)
+          if (remainingTries > 0)         return of(error)
 
-          return throwError(getErrorMessage(maxRetry));
+          remainingTries = maxRetry;
+          remainingFallbackServers--;
 
+          const hasFallbackServersLeft  = remainingFallbackServers > 0;
+          const lastTry                 = remainingFallbackServers === 0;
+
+          if (hasFallbackServersLeft)   return of(error);
+          if (lastTry)                  return throwError(ApiRetryException.Stop);
         })
       ))
     );
+}
+
+export enum ApiRetryException {
+  Unknown = 0,
+  Retry = 1,
+  Stop = 2
 }

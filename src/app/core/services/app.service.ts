@@ -20,7 +20,7 @@ export class AppService {
 
   ) {}
 
-  public async doProcess(process: () => Promise<any>): Promise<any>
+  public async doProcess<O>(process: () => Promise<O>): Promise<O>
   {
       try
       {

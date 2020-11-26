@@ -6,7 +6,7 @@ export class Error {
   public extra: any;
 }
 
-export class BaseResponse {
+export class BaseResult {
   public isSuccess: boolean = false;
   public errors: Error[] = [];
 }
@@ -22,6 +22,6 @@ export class AddCarRequest {
   ) {}
 }
 
-export class AddCarResponse extends BaseResponse {
+export class AddCarResponse extends BaseResult {
 
 }
