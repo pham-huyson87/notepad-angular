@@ -15,7 +15,7 @@ export class CarService extends BaseApiService {
       super(
           _http,
           [
-              "http://127.0.0.1:5000",
+              "https://127.0.0.1:5000",
               "https://127.0.0.1:5001"
           ]
       );
